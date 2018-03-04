@@ -4528,34 +4528,6 @@ __read_password() {
   echo "$_pp"
 }
 
-
-__read_password() {
-  unset _pp
-  prompt="Enter Password:"
-  while IFS= read -p "$prompt" -r -s -n 1 char; do
-    if [ "$char" = $'\0' ]; then
-      break
-    fi
-    prompt='*'
-    _pp="$_pp$char"
-  done
-  echo "$_pp"
-}
-
-
-__read_password() {
-  unset _pp
-  prompt="Enter Password:"
-  while IFS= read -p "$prompt" -r -s -n 1 char; do
-    if [ "$char" = $'\0' ]; then
-      break
-    fi
-    prompt='*'
-    _pp="$_pp$char"
-  done
-  echo "$_pp"
-}
-
 #confighome
 installcronjob() {
   _c_home="$1"
