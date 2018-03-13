@@ -135,6 +135,7 @@ __red() {
 }
 
 _printargs() {
+  local _exitstatus="$?"
   if [ -z "$NO_TIMESTAMP" ] || [ "$NO_TIMESTAMP" = "0" ]; then
     printf -- "%s" "[$(date)] "
   fi
@@ -144,6 +145,8 @@ _printargs() {
     printf -- "%s" "$1='$2'"
   fi
   printf "\n"
+  # return the saved exit status 
+  return "$_exitstatus"
 }
 
 _dlg_versions() {
