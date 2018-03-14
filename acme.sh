@@ -135,7 +135,7 @@ __red() {
 }
 
 _printargs() {
-  local _exitstatus="$?"
+  _exitstatus="$?"
   if [ -z "$NO_TIMESTAMP" ] || [ "$NO_TIMESTAMP" = "0" ]; then
     printf -- "%s" "[$(date)] "
   fi
@@ -168,6 +168,7 @@ _dlg_versions() {
 
 #class
 _syslog() {
+  _exitstatus="$?"
   if [ "${SYS_LOG:-$SYSLOG_LEVEL_NONE}" = "$SYSLOG_LEVEL_NONE" ]; then
     return
   fi
@@ -181,6 +182,7 @@ _syslog() {
     fi
   fi
   $__logger_i -t "$PROJECT_NAME" -p "$_logclass" "$(_printargs "$@")" >/dev/null 2>&1
+  return "$_exitstatus"
 }
 
 _log() {
