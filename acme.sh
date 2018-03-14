@@ -159,7 +159,7 @@ __red() {
 }
 
 _printargs() {
-  local _exitstatus="$?"
+  _exitstatus="$?"
   if [ -z "$NO_TIMESTAMP" ] || [ "$NO_TIMESTAMP" = "0" ]; then
     printf -- "%s" "[$(date)] "
   fi
