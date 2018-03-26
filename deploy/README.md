@@ -72,7 +72,51 @@ export DEPLOY_EXIM4_RELOAD="/etc/init.d/exim4 restart"
 acme.sh --deploy -d ftp.example.com --deploy-hook exim4
 ```
 
+<<<<<<< HEAD
 ## 6. Deploy the cert to remote routeros
+=======
+## 6. Deploy the cert to OSX Keychain
+
+```sh
+acme.sh --deploy -d ftp.example.com --deploy-hook keychain
+```
+
+## 7. Deploy to cpanel host using UAPI
+
+This hook is using UAPI and works in cPanel & WHM version 56 or newer.
+```
+acme.sh  --deploy  -d example.com  --deploy-hook cpanel_uapi
+```
+DEPLOY_CPANEL_USER is required only if you run the script as root and it should contain cpanel username.
+```sh
+export DEPLOY_CPANEL_USER=username
+acme.sh  --deploy  -d example.com  --deploy-hook cpanel_uapi
+```
+Please note, that the cpanel_uapi hook will deploy only the first domain when your certificate will automatically renew. Therefore you should issue a separate certificate for each domain. 
+
+## 8. Deploy the cert to your FRITZ!Box router
+
+You must specify the credentials that have administrative privileges on the FRITZ!Box in order to deploy the certificate, plus the URL of your FRITZ!Box, through the following environment variables:
+```sh
+$ export DEPLOY_FRITZBOX_USERNAME=my_username
+$ export DEPLOY_FRITZBOX_PASSWORD=the_password
+$ export DEPLOY_FRITZBOX_URL=https://fritzbox.example.com
+```
+
+After the first deployment, these values will be stored in your $HOME/.acme.sh/account.conf. You may now deploy the certificate like this:
+
+```sh
+acme.sh --deploy -d fritzbox.example.com --deploy-hook fritzbox
+```
+
+## 9. Deploy the cert to strongswan
+
+```sh
+acme.sh --deploy -d ftp.example.com --deploy-hook strongswan
+```
+
+## 10. Deploy the cert to remote routeros
+>>>>>>> Fix documentation
 
 ```sh
 acme.sh --deploy -d ftp.example.com --deploy-hook routeros
