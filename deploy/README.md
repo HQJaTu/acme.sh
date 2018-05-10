@@ -118,8 +118,14 @@ acme.sh --deploy -d ftp.example.com --deploy-hook strongswan
 ## 10. Deploy the cert to remote routeros
 >>>>>>> Fix documentation
 
+<<<<<<< HEAD
 ```sh
 acme.sh --deploy -d ftp.example.com --deploy-hook routeros
+=======
+You must specify the file where you want the concatenated key and certificate chain written.
+```sh
+export DEPLOY_HAPROXY_PEM=/etc/haproxy/server.pem
+>>>>>>> Document updated haproxy deploy hook
 ```
 
 Before you can deploy the certificate to router os, you need to add the id_rsa.pub key to the routeros and assign a user to that key.
@@ -129,10 +135,26 @@ There are no need to enable ftp service for the script to work, as they are tran
 
 Then you need to set the environment variables for the deploy script to work.
 ```sh
+<<<<<<< HEAD
 export ROUTER_OS_USERNAME=certuser
 export ROUTER_OS_HOST=router.example.com
 
 acme.sh --deploy -d ftp.example.com --deploy-hook routeros
+=======
+export DEPLOY_HAPROXY_RELOAD="systemctl reload haproxy"
+```
+
+You may optionally specify that the issuer certificate is transferred to "${DEPLOY_HAPROXY_PEM}.issuer". This is a requirement to support OCSP stapling in HAProxy. The value shown below will be used as the default if you don't set this environment variable.
+
+```sh
+export DEPLOY_HAPROXY_ISSUER="no"
+```
+
+You may optionally specify that you wish to support HAProxy's multi-cert bundle functionality.  This allows serving of both RSA and ECC certificates on the same proxy. This adds a ".rsa" or ".ecc" suffix to the files generated (.pem, .ocsp and .issuer). The value shown below will be used as the default if you don't set this environment variable.
+
+```sh
+export DEPLOY_HAPROXY_BUNDLE="no"
+>>>>>>> Document updated haproxy deploy hook
 ```
 
 The deploy script will remove previously deployed certificates, and it does this with an assumption on how RouterOS names imported certificates, adding a "cer_0" suffix at the end. This is true for versions 6.32 -> 6.41.3, but it is not guaranteed that it will be true for future versions when upgrading.
