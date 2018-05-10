@@ -119,6 +119,7 @@ acme.sh --deploy -d ftp.example.com --deploy-hook strongswan
 >>>>>>> Fix documentation
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```sh
 acme.sh --deploy -d ftp.example.com --deploy-hook routeros
 =======
@@ -126,6 +127,18 @@ You must specify the file where you want the concatenated key and certificate ch
 ```sh
 export DEPLOY_HAPROXY_PEM=/etc/haproxy/server.pem
 >>>>>>> Document updated haproxy deploy hook
+=======
+You may specify the directory where you want the concatenated key and certificate chain written. The value shown below will be used as the default if you don't set this environment variable.
+
+```sh
+export DEPLOY_HAPROXY_PEM_PATH=/etc/haproxy
+```
+
+You may optionally specify the file name where you want the concatenated key and certificate chain written. The value shown below will be used as the default if you don't set this environment variable.
+
+```sh
+export DEPLOY_HAPROXY_PEM_PATH=$domain
+>>>>>>> update for new haproxy deploy vars
 ```
 
 Before you can deploy the certificate to router os, you need to add the id_rsa.pub key to the routeros and assign a user to that key.
