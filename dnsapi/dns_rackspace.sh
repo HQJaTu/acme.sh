@@ -36,9 +36,15 @@ dns_rackspace_add() {
 
     # At this point, there is an authenticated session token that we can use.
     local token_file=/tmp/.acme.rackspace.$EUID.token
+    _debug token_file "$token_file"
     local token=$(jq -r ".access.token.id" "$token_file")
-    local api_url=$(jq -r ".access.serviceCatalog[0].endpoints[0].publicURL" "$token_file")
+    local api_url=$(jq -r '.access.serviceCatalog[] | select(.type=="rax:dns").endpoints[0].publicURL' "$token_file")
     local json_data
+
+    if [ -z "$api_url" ]; then
+        _err "Failed to extract DNS API endpoint from service catalog. Fatal error, cannot continue."
+        exit 1
+    fi
 
     # Try to find a domain from Rackspace that will have the new TXT-record.
     # Start by stripping the hard-coded word "_acme-challenge." from the FQDN.
@@ -239,8 +245,9 @@ _rackspace_get_domain() {
     local api_url="$2"
     local domain_to_check
 
+    _debug "_rackspace_get_domain(): '$domain_to_use', '$api_url'"
     # Get list of all domains this API user can manage.
-    local json_data=$(curl --silent -H "X-Auth-Token: $token" -H "Accept: application/json" "$api_url/domains")
+    local json_data=$(curl --silent --fail -H "X-Auth-Token: $token" -H "Accept: application/json" "$api_url/domains")
     if [ $? -gt 0 ] || [ -z "$json_data" ]; then
         _err "Failed to retrieve domain list from Rackspace Cloud DNS API. Fatal error, cannot continue."
         return 1
@@ -302,7 +309,7 @@ _rackspace_authenticate() {
         fi
     fi
 
-    curl --silent -H "X-Auth-Token: $token" "https://identity.api.rackspacecloud.com/v2.0/tokens/$token" | jq --exit-status .access.token.tenant > /dev/null
+    local tenant=$(curl --silent -H "X-Auth-Token: $token" "https://identity.api.rackspacecloud.com/v2.0/tokens/$token" | jq --exit-status .access.token.tenant)
     if [ $? -gt 0 ]; then
         # A failure!
         _info "Token is not valid! Getting a fresh one."
@@ -318,6 +325,8 @@ _rackspace_authenticate() {
             _err "Failed to verify access token from $token_file"
             exit 1
         fi
+    else
+        _debug "Token good! Existing tenant ok."
     fi
 }
 
@@ -345,7 +354,7 @@ _rackspace_get_token() {
     umask=$(umask)
     umask 0077
     auth_json="{\"auth\":{\"RAX-KSKEY:apiKeyCredentials\":{\"username\":\"$user\",\"apiKey\":\"$key\"}}}"
-    curl --silent https://identity.api.rackspacecloud.com/v2.0/tokens -X POST -d "$auth_json" -H "Content-type: application/json" > $token_file
+    curl --silent --fail https://identity.api.rackspacecloud.com/v2.0/tokens -X POST -d "$auth_json" -H "Content-type: application/json" > $token_file
     stat=$?
     umask $umask
     if [ $stat -gt 0 ]; then
