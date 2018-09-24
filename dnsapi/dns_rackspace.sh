@@ -166,8 +166,13 @@ dns_rackspace_rm() {
     # At this point, there is an authenticated session token that we can use.
     local token_file=/tmp/.acme.rackspace.$EUID.token
     local token=$(jq -r ".access.token.id" "$token_file")
-    local api_url=$(jq -r ".access.serviceCatalog[0].endpoints[0].publicURL" "$token_file")
+    local api_url=$(jq -r '.access.serviceCatalog[] | select(.type=="rax:dns").endpoints[0].publicURL' "$token_file")
     local json_data
+
+    if [ -z "$api_url" ]; then
+        _err "Failed to extract DNS API endpoint from service catalog. Fatal error, cannot continue."
+        exit 1
+    fi
 
     # Try to find a domain from Rackspace that will have an existing TXT-record.
     if [[ ! "$fulldomain" =~ ^_acme-challenge\.(.+)$ ]]; then
