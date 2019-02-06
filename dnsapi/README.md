@@ -7,7 +7,11 @@ https://github.com/Neilpang/acme.sh/wiki/DNS-alias-mode
 
 ## 1. Use CloudFlare domain API to automatically issue cert
 
+<<<<<<< HEAD
 First you need to login to your CloudFlare account to get your API key.
+=======
+First you need to login to your CloudFlare account to get your [API key](https://dash.cloudflare.com/profile). 
+>>>>>>> Documentation update.
 
 ```
 export CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
@@ -147,13 +151,24 @@ Finally, make the DNS server and update Key available to `acme.sh`
 export NSUPDATE_SERVER="dns.example.com"
 export NSUPDATE_KEY="/path/to/your/nsupdate.key"
 ```
+<<<<<<< HEAD
+=======
+and optionally (depending on DNS server)
+```
+export NSUPDATE_ZONE="example.com"
+```
+>>>>>>> Documentation update.
 
 Ok, let's issue a cert now:
 ```
 acme.sh --issue --dns dns_nsupdate -d example.com -d www.example.com
 ```
 
+<<<<<<< HEAD
 The `NSUPDATE_SERVER` and `NSUPDATE_KEY` settings will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+=======
+The `NSUPDATE_SERVER`, `NSUPDATE_KEY`, and `NSUPDATE_ZONE` settings will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+>>>>>>> Documentation update.
 
 
 ## 8. Use LuaDNS domain API
@@ -264,16 +279,37 @@ when needed.
 
 ## 14. Use Linode domain API
 
+<<<<<<< HEAD
 First you need to login to your Linode account to get your API Key.
 [https://manager.linode.com/profile/api](https://manager.linode.com/profile/api)
 
 Then add an API key with label *ACME* and copy the new key.
+=======
+The tokens created in the classic manager and cloud manager are incompatible
+with one another. While the classic manager makes an all or nothing API, the
+newer cloud manager interface promises to produce API keys with a finer
+permission system. However, either way works just fine.
+
+### Classic Manager ###
+
+Classic Manager: https://manager.linode.com/profile/api
+
+First you need to login to your Linode account to get your API Key.
+
+Then add an API key with label *ACME* and copy the new key into the following
+command.
+>>>>>>> Documentation update.
 
 ```sh
 export LINODE_API_KEY="..."
 ```
 
+<<<<<<< HEAD
 Due to the reload time of any changes in the DNS records, we have to use the `dnssleep` option to wait at least 15 minutes for the changes to take effect.
+=======
+Due to the reload time of any changes in the DNS records, we have to use the
+`dnssleep` option to wait at least 15 minutes for the changes to take effect.
+>>>>>>> Documentation update.
 
 Ok, let's issue a cert now:
 
@@ -281,7 +317,39 @@ Ok, let's issue a cert now:
 acme.sh --issue --dns dns_linode --dnssleep 900 -d example.com -d www.example.com
 ```
 
+<<<<<<< HEAD
 The `LINODE_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+=======
+The `LINODE_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be
+reused when needed.
+
+### Cloud Manager ###
+
+Cloud Manager: https://cloud.linode.com/profile/tokens
+
+First you need to login to your Linode account to get your API Key.
+
+   1. Click on "Add a Personal Access Token".
+   2. Give the new key a "Label" (we recommend *ACME*)
+   3. Give it Read/Write access to "Domains"
+   4. "Submit" and copy the new key into the `LINODE_V4_API_KEY` command below.
+
+```sh
+export LINODE_V4_API_KEY="..."
+```
+
+Due to the reload time of any changes in the DNS records, we have to use the
+`dnssleep` option to wait at least 15 minutes for the changes to take effect.
+
+Ok, let's issue a cert now:
+
+```sh
+acme.sh --issue --dns dns_linode_v4 --dnssleep 900 -d example.com -d www.example.com
+```
+
+The `LINODE_V4_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be
+reused when needed.
+>>>>>>> Documentation update.
 
 ## 15. Use FreeDNS
 
@@ -455,7 +523,11 @@ The `Infoblox_Creds` and `Infoblox_Server` will be saved in `~/.acme.sh/account.
 First you need to create/obtain API tokens on your [settings panel](https://vscale.io/panel/settings/tokens/).
 
 ```
+<<<<<<< HEAD
 VSCALE_API_KEY="sdfsdfsdfljlbjkljlkjsdfoiwje"
+=======
+export VSCALE_API_KEY="sdfsdfsdfljlbjkljlkjsdfoiwje"
+>>>>>>> Documentation update.
 ```
 
 Ok, let's issue a cert now:
@@ -1015,6 +1087,7 @@ Now you can issue a certificate.
 acme.sh --issue --dns dns_namecheap -d example.com -d *.example.com
 ```
 
+<<<<<<< HEAD
 ## 54. Use Internet.bs
 
 First you need to create/obtain API credentials on your Internet.bs (https://internetbs.net) account. Go to the "Get my API Key" section in the "My Domains" section.
@@ -1022,14 +1095,144 @@ First you need to create/obtain API credentials on your Internet.bs (https://int
 ```
 export INTERNETBS_API_KEY="..."
 export INTERNETBS_API_PASSWORD="..."
+=======
+## 54. Use MyDNS.JP API
+
+First, register to MyDNS.JP and get MasterID and Password.
+
+```
+export MYDNSJP_MasterID=MasterID
+export MYDNSJP_Password=Password
+```
+
+To issue a certificate:
+
+```
+acme.sh --issue --dns dns_mydnsjp -d example.com -d www.example.com
+```
+The `MYDNSJP_MasterID` and `MYDNSJP_Password` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 55. Use hosting.de API
+
+Create an API key in your hosting.de account here: https://secure.hosting.de
+
+The key needs the following rights:
+- DNS_ZONES_EDIT
+- DNS_ZONES_LIST
+
+Set your API Key and endpoint:
+
+```
+export HOSTINGDE_APIKEY='xxx'
+export HOSTINGDE_ENDPOINT='https://secure.hosting.de'
+```
+
+The plugin can also be used for the http.net API. http.net customers have to set endpoint to https://partner.http.net.
+
+Ok, let's issue a cert now:
+```
+acme.sh --issue --dns dns_hostingde -d example.com -d *.example.com
+```
+
+The hosting.de API key and endpoint will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 56. Use Neodigit.net API
+
+```
+export NEODIGIT_API_TOKEN="eXJxTkdUVUZmcHQ3QWJackQ4ZGlMejRDSklRYmo5VG5zcFFKK2thYnE0WnVnNnMy"
+>>>>>>> Documentation update.
 ```
 
 Ok, let's issue a cert now:
 ```
+<<<<<<< HEAD
 acme.sh --issue --dns dns_internetbs -d example.com -d www.example.com
 ```
 
 The `INTERNETBS_API_KEY` and `INTERNETBS_API_PASSWORD` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+=======
+acme.sh --issue --dns dns_neodigit -d example.com -d www.example.com
+```
+
+Neodigit API Token will be saved in `~/.acme.sh/account.conf` and will be used when needed.
+
+## 57. Use Exoscale API
+
+Create an API key and secret key in the Exoscale account section
+
+Set your API and secret key:
+
+```
+export EXOSCALE_API_KEY='xxx'
+export EXOSCALE_SECRET_KEY='xxx'
+```
+
+Now, let's issue a cert:
+```
+acme.sh --issue --dns dns_exoscale -d example.com -d www.example.com
+```
+
+The `EXOSCALE_API_KEY` and `EXOSCALE_SECRET_KEY` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 58. Using PointHQ API to issue certs
+
+Log into [PointHQ account management](https://app.pointhq.com/profile) and copy the API key from the page there.
+
+```export PointHQ_Key="apikeystringgoeshere"
+exportPointHQ_Email="accountemail@yourdomain.com"
+```
+
+You can then issue certs by using:
+```acme.sh --issue --dns dns_pointhq -d example.com -d www.example.com
+```
+
+## 59. Use Active24 API
+
+Create an API token in the Active24 account section, documentation on https://faq.active24.com/cz/790131-REST-API-rozhran%C3%AD.
+
+Set your API token:
+
+```
+export ACTIVE24_Token='xxx'
+```
+
+Now, let's issue a cert, set `dnssleep` for propagation new DNS record:
+```
+acme.sh --issue --dns dns_active24 -d example.com -d www.example.com --dnssleep 1000
+```
+
+The `ACTIVE24_Token` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 60. Use do.de API
+
+Create an API token in your do.de account.
+
+Set your API token:
+```
+export DO_LETOKEN='FmD408PdqT1E269gUK57'
+```
+
+To issue a certificate run:
+```
+acme.sh --issue --dns dns_doapi -d example.com -d *.example.com
+```
+
+The API token will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 61. Use NederHost API
+
+Create an API token in Mijn NederHost.
+
+Set your API key:
+```
+export NederHost_Key='xxx'
+```
+
+To issue a certificate run:
+```
+acme.sh --issue --dns dns_nederhost -d example.com -d *.example.com
+```
+>>>>>>> Documentation update.
 
 # Use custom API
 
@@ -1052,6 +1255,7 @@ See:  https://github.com/Neilpang/acme.sh/wiki/DNS-API-Dev-Guide
 # Use lexicon DNS API
 
 https://github.com/Neilpang/acme.sh/wiki/How-to-use-lexicon-dns-api
+<<<<<<< HEAD
 
 ## 66. Use one.com domain API to automatically issue cert
 
@@ -1068,3 +1272,5 @@ acme.sh --issue --dns dns_one -d example.com -d www.example.com
 ```
 
 The `ONECOM_USER` and `ONECOM_PASSWORD` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+=======
+>>>>>>> Documentation update.
