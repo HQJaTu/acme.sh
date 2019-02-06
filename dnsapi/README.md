@@ -4,14 +4,11 @@ DNS api usage:
 If your dns provider doesn't provide api access, you can use our dns alias mode: 
 
 https://github.com/Neilpang/acme.sh/wiki/DNS-alias-mode
+https://github.com/Neilpang/acme.sh/wiki/dnsapi
 
 ## 1. Use CloudFlare domain API to automatically issue cert
 
-<<<<<<< HEAD
-First you need to login to your CloudFlare account to get your API key.
-=======
 First you need to login to your CloudFlare account to get your [API key](https://dash.cloudflare.com/profile). 
->>>>>>> Documentation update.
 
 ```
 export CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
@@ -151,24 +148,17 @@ Finally, make the DNS server and update Key available to `acme.sh`
 export NSUPDATE_SERVER="dns.example.com"
 export NSUPDATE_KEY="/path/to/your/nsupdate.key"
 ```
-<<<<<<< HEAD
-=======
 and optionally (depending on DNS server)
 ```
 export NSUPDATE_ZONE="example.com"
 ```
->>>>>>> Documentation update.
 
 Ok, let's issue a cert now:
 ```
 acme.sh --issue --dns dns_nsupdate -d example.com -d www.example.com
 ```
 
-<<<<<<< HEAD
 The `NSUPDATE_SERVER` and `NSUPDATE_KEY` settings will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
-=======
-The `NSUPDATE_SERVER`, `NSUPDATE_KEY`, and `NSUPDATE_ZONE` settings will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
->>>>>>> Documentation update.
 
 
 ## 8. Use LuaDNS domain API
@@ -279,12 +269,6 @@ when needed.
 
 ## 14. Use Linode domain API
 
-<<<<<<< HEAD
-First you need to login to your Linode account to get your API Key.
-[https://manager.linode.com/profile/api](https://manager.linode.com/profile/api)
-
-Then add an API key with label *ACME* and copy the new key.
-=======
 The tokens created in the classic manager and cloud manager are incompatible
 with one another. While the classic manager makes an all or nothing API, the
 newer cloud manager interface promises to produce API keys with a finer
@@ -298,18 +282,13 @@ First you need to login to your Linode account to get your API Key.
 
 Then add an API key with label *ACME* and copy the new key into the following
 command.
->>>>>>> Documentation update.
 
 ```sh
 export LINODE_API_KEY="..."
 ```
 
-<<<<<<< HEAD
-Due to the reload time of any changes in the DNS records, we have to use the `dnssleep` option to wait at least 15 minutes for the changes to take effect.
-=======
 Due to the reload time of any changes in the DNS records, we have to use the
 `dnssleep` option to wait at least 15 minutes for the changes to take effect.
->>>>>>> Documentation update.
 
 Ok, let's issue a cert now:
 
@@ -317,9 +296,6 @@ Ok, let's issue a cert now:
 acme.sh --issue --dns dns_linode --dnssleep 900 -d example.com -d www.example.com
 ```
 
-<<<<<<< HEAD
-The `LINODE_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
-=======
 The `LINODE_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be
 reused when needed.
 
@@ -349,7 +325,6 @@ acme.sh --issue --dns dns_linode_v4 --dnssleep 900 -d example.com -d www.example
 
 The `LINODE_V4_API_KEY` will be saved in `~/.acme.sh/account.conf` and will be
 reused when needed.
->>>>>>> Documentation update.
 
 ## 15. Use FreeDNS
 
@@ -523,11 +498,7 @@ The `Infoblox_Creds` and `Infoblox_Server` will be saved in `~/.acme.sh/account.
 First you need to create/obtain API tokens on your [settings panel](https://vscale.io/panel/settings/tokens/).
 
 ```
-<<<<<<< HEAD
-VSCALE_API_KEY="sdfsdfsdfljlbjkljlkjsdfoiwje"
-=======
 export VSCALE_API_KEY="sdfsdfsdfljlbjkljlkjsdfoiwje"
->>>>>>> Documentation update.
 ```
 
 Ok, let's issue a cert now:
@@ -922,7 +893,7 @@ acme.sh --issue --dns dns_loopia -d example.com -d *.example.com
 The username and password will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
 ## 45. Use ACME DNS API
 
-ACME DNS is a limited DNS server with RESTful HTTP API to handle ACME DNS challenges easily and securely. 
+ACME DNS is a limited DNS server with RESTful HTTP API to handle ACME DNS challenges easily and securely.
 https://github.com/joohoi/acme-dns
 
 ```
@@ -1042,7 +1013,6 @@ acme.sh --issue --dns dns_netcup -d example.com -d www.example.com
 ```
 
 The `NC_Apikey`,`NC_Apipw` and `NC_CID` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
-
 ## 52. Use GratisDNS.dk
 
 GratisDNS.dk (https://gratisdns.dk/) does not provide an API to update DNS records (other than IPv4 and IPv6
@@ -1087,15 +1057,6 @@ Now you can issue a certificate.
 acme.sh --issue --dns dns_namecheap -d example.com -d *.example.com
 ```
 
-<<<<<<< HEAD
-## 54. Use Internet.bs
-
-First you need to create/obtain API credentials on your Internet.bs (https://internetbs.net) account. Go to the "Get my API Key" section in the "My Domains" section.
-
-```
-export INTERNETBS_API_KEY="..."
-export INTERNETBS_API_PASSWORD="..."
-=======
 ## 54. Use MyDNS.JP API
 
 First, register to MyDNS.JP and get MasterID and Password.
@@ -1140,17 +1101,14 @@ The hosting.de API key and endpoint will be saved in `~/.acme.sh/account.conf` a
 
 ```
 export NEODIGIT_API_TOKEN="eXJxTkdUVUZmcHQ3QWJackQ4ZGlMejRDSklRYmo5VG5zcFFKK2thYnE0WnVnNnMy"
->>>>>>> Documentation update.
 ```
 
 Ok, let's issue a cert now:
 ```
-<<<<<<< HEAD
 acme.sh --issue --dns dns_internetbs -d example.com -d www.example.com
 ```
 
 The `INTERNETBS_API_KEY` and `INTERNETBS_API_PASSWORD` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
-=======
 acme.sh --issue --dns dns_neodigit -d example.com -d www.example.com
 ```
 
@@ -1232,7 +1190,63 @@ To issue a certificate run:
 ```
 acme.sh --issue --dns dns_nederhost -d example.com -d *.example.com
 ```
->>>>>>> Documentation update.
+
+## 61. Use Nexcess API
+
+First, you'll need to login to the [Nexcess.net Client Portal](https://portal.nexcess.net) and [generate a new API token](https://portal.nexcess.net/api-token).
+
+Once you have a token, set it in your systems environment:
+
+```
+export NW_API_TOKEN="YOUR_TOKEN_HERE"
+export NW_API_ENDPOINT="https://portal.nexcess.net"
+```
+
+Finally, we'll issue the certificate: (Nexcess DNS publishes at max every 15 minutes, we recommend setting a 900 second `--dnssleep`)
+
+```
+acme.sh --issue --dns dns_nw -d example.com --dnssleep 900
+```
+
+The `NW_API_TOKEN` and `NW_API_ENDPOINT` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 62. Use Thermo.io API
+
+First, you'll need to login to the [Thermo.io Client Portal](https://core.thermo.io) and [generate a new API token](https://core.thermo.io/api-token).
+
+Once you have a token, set it in your systems environment:
+
+```
+export NW_API_TOKEN="YOUR_TOKEN_HERE"
+export NW_API_ENDPOINT="https://core.thermo.io"
+```
+
+Finally, we'll issue the certificate: (Thermo DNS publishes at max every 15 minutes, we recommend setting a 900 second `--dnssleep`)
+
+```
+acme.sh --issue --dns dns_nw -d example.com --dnssleep 900
+```
+
+The `NW_API_TOKEN` and `NW_API_ENDPOINT` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+## 63. Use Futurehosting API
+
+First, you'll need to login to the [Futurehosting Client Portal](https://my.futurehosting.com) and [generate a new API token](https://my.futurehosting.com/api-token).
+
+Once you have a token, set it in your systems environment:
+
+```
+export NW_API_TOKEN="YOUR_TOKEN_HERE"
+export NW_API_ENDPOINT="https://my.futurehosting.com"
+```
+
+Finally, we'll issue the certificate: (Futurehosting DNS publishes at max every 15 minutes, we recommend setting a 900 second `--dnssleep`)
+
+```
+acme.sh --issue --dns dns_nw -d example.com --dnssleep 900
+```
+
+The `NW_API_TOKEN` and `NW_API_ENDPOINT` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
 
 # Use custom API
 
@@ -1255,7 +1269,6 @@ See:  https://github.com/Neilpang/acme.sh/wiki/DNS-API-Dev-Guide
 # Use lexicon DNS API
 
 https://github.com/Neilpang/acme.sh/wiki/How-to-use-lexicon-dns-api
-<<<<<<< HEAD
 
 ## 66. Use one.com domain API to automatically issue cert
 
@@ -1272,5 +1285,3 @@ acme.sh --issue --dns dns_one -d example.com -d www.example.com
 ```
 
 The `ONECOM_USER` and `ONECOM_PASSWORD` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
-=======
->>>>>>> Documentation update.
