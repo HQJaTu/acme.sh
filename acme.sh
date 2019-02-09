@@ -2650,7 +2650,7 @@ _on_before_issue() {
   if [ "$_chk_pre_hook" ]; then
     _info "Run pre hook:'$_chk_pre_hook'"
     if ! (
-      cd "$DOMAIN_PATH" && eval "$_chk_pre_hook"
+      cd "$DOMAIN_PATH" && eval "\"$_chk_pre_hook\""
     ); then
       _err "Error when run pre hook."
       return 1
@@ -2738,7 +2738,7 @@ _on_issue_err() {
   if [ "$_chk_post_hook" ]; then
     _info "Run post hook:'$_chk_post_hook'"
     if ! (
-      cd "$DOMAIN_PATH" && eval "$_chk_post_hook"
+      cd "$DOMAIN_PATH" && eval "\"$_chk_post_hook\""
     ); then
       _err "Error when run post hook."
       return 1
@@ -2780,7 +2780,7 @@ _on_issue_success() {
   if [ "$_chk_post_hook" ]; then
     _info "Run post hook:'$_chk_post_hook'"
     if ! (
-      cd "$DOMAIN_PATH" && eval "$_chk_post_hook"
+      cd "$DOMAIN_PATH" && eval "\"$_chk_post_hook\""
     ); then
       _err "Error when run post hook."
       return 1
@@ -2791,7 +2791,7 @@ _on_issue_success() {
   if [ "$IS_RENEW" ] && [ "$_chk_renew_hook" ]; then
     _info "Run renew hook:'$_chk_renew_hook'"
     if ! (
-      cd "$DOMAIN_PATH" && eval "$_chk_renew_hook"
+      cd "$DOMAIN_PATH" && eval "\"$_chk_renew_hook\""
     ); then
       _err "Error when run renew hook."
       return 1
