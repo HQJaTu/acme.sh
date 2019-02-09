@@ -308,7 +308,7 @@ _rackspace_authenticate() {
         _info "Token is not valid! Getting a fresh one."
         _rackspace_get_token
         token=$(jq -r --exit-status .access.token.id "$token_file")
-        if [ $RACKSPACE_RETRY == 0 ]; then
+        if [ $? -gt 0 ] && [ $RACKSPACE_RETRY == 0 ]; then
             _info "Retrying authentication!"
             RACKSPACE_RETRY=1
             rm -f "$token_file"
