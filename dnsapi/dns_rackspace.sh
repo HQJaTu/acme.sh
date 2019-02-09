@@ -314,24 +314,25 @@ _rackspace_authenticate() {
         fi
     fi
 
-    local tenant=$(curl --silent -H "X-Auth-Token: $token" "https://identity.api.rackspacecloud.com/v2.0/tokens/$token" | jq --exit-status .access.token.tenant)
+    local tenant=$(curl --silent --fail -H "X-Auth-Token: $token" "https://identity.api.rackspacecloud.com/v2.0/tokens/$token")
+    tenant=$(jq --exit-status .access.token.tenant <<< "$tenant" >& /dev/null)
     if [ $? -gt 0 ]; then
         # A failure!
         _info "Token is not valid! Getting a fresh one."
         _rackspace_get_token
         token=$(jq -r --exit-status .access.token.id "$token_file")
-        if [ $? -gt 0 ] && [ $RACKSPACE_RETRY == 0 ]; then
-            _info "Retrying authentication!"
+        if [ $? -eq 0 ] && [ $RACKSPACE_RETRY == 0 ]; then
+            _info "Got new token. Retrying authentication!"
             RACKSPACE_RETRY=1
             rm -f "$token_file"
             _rackspace_authenticate
             RACKSPACE_RETRY=0
         else
-            _err "Failed to verify access token from $token_file"
+            _err "Failed to verify existing access token from $token_file or get a new one."
             exit 1
         fi
     else
-        _debug "Token good! Existing tenant ok."
+        _debug "Token in storage accepted as valid."
     fi
 }
 
