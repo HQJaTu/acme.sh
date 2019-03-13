@@ -4382,6 +4382,68 @@ _uninstall_win_taskscheduler() {
   fi
 }
 
+__read_password() {
+  unset _pp
+  prompt="Enter Password:"
+  while IFS= read -p "$prompt" -r -s -n 1 char; do
+    if [ "$char" = $'\0' ]; then
+      break
+    fi
+    prompt='*'
+    _pp="$_pp$char"
+  done
+  echo "$_pp"
+}
+
+_install_win_taskscheduler() {
+  _lesh="$1"
+  _centry="$2"
+  _randomminute="$3"
+  if ! _exists cygpath; then
+    _err "cygpath not found"
+    return 1
+  fi
+  if ! _exists schtasks; then
+    _err "schtasks.exe is not found, are you on Windows?"
+    return 1
+  fi
+  _winbash="$(cygpath -w $(which bash))"
+  _debug _winbash "$_winbash"
+  if [ -z "$_winbash" ]; then
+    _err "can not find bash path"
+    return 1
+  fi
+  _myname="$(whoami)"
+  _debug "_myname" "$_myname"
+  if [ -z "$_myname" ]; then
+    _err "can not find my user name"
+    return 1
+  fi
+  _debug "_lesh" "$_lesh"
+
+  _info "To install scheduler task in your Windows account, you must input your windows password."
+  _info "$PROJECT_NAME doesn't save your password."
+  _info "Please input your Windows password for: $(__green "$_myname")"
+  _password="$(__read_password)"
+  #SCHTASKS.exe '/create' '/SC' 'DAILY' '/TN' "$_WINDOWS_SCHEDULER_NAME" '/F' '/ST' "00:$_randomminute" '/RU' "$_myname" '/RP' "$_password" '/TR' "$_winbash -l -c '$_lesh --cron --home \"$LE_WORKING_DIR\" $_centry'" >/dev/null
+  echo SCHTASKS.exe '/create' '/SC' 'DAILY' '/TN' "$_WINDOWS_SCHEDULER_NAME" '/F' '/ST' "00:$_randomminute" '/RU' "$_myname" '/RP' "$_password" '/TR' "\"$_winbash -l -c '$_lesh --cron --home \"$LE_WORKING_DIR\" $_centry'\"" | cmd.exe >/dev/null
+  echo
+
+}
+
+_uninstall_win_taskscheduler() {
+  if ! _exists schtasks; then
+    _err "schtasks.exe is not found, are you on Windows?"
+    return 1
+  fi
+  if ! echo SCHTASKS /query /tn "$_WINDOWS_SCHEDULER_NAME" | cmd.exe >/dev/null; then
+    _debug "scheduler $_WINDOWS_SCHEDULER_NAME is not found."
+  else
+    _info "Removing $_WINDOWS_SCHEDULER_NAME"
+    echo SCHTASKS /delete /f /tn "$_WINDOWS_SCHEDULER_NAME" | cmd.exe >/dev/null
+  fi
+}
+
 #confighome
 installcronjob() {
   _c_home="$1"
