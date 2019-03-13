@@ -4323,13 +4323,12 @@ list() {
 __read_password() {
   unset _pp
   prompt="Enter Password:"
-  while IFS= read -p "$prompt" -r -s -n 1 char
-  do
-      if [ "$char" = $'\0' ]; then
-          break
-      fi
-      prompt='*'
-      _pp="$_pp$char"
+  while IFS= read -p "$prompt" -r -s -n 1 char; do
+    if [ "$char" = $'\0' ]; then
+        break
+    fi
+    prompt='*'
+    _pp="$_pp$char"
   done
   echo "$_pp"
 }
@@ -4379,7 +4378,7 @@ _uninstall_win_taskscheduler() {
     _debug "scheduler $_WINDOWS_SCHEDULER_NAME is not found."
   else
     _info "Removing $_WINDOWS_SCHEDULER_NAME"
-    echo SCHTASKS  /delete  /f  /tn "$_WINDOWS_SCHEDULER_NAME" | cmd.exe >/dev/null
+    echo SCHTASKS /delete /f /tn "$_WINDOWS_SCHEDULER_NAME" | cmd.exe >/dev/null
   fi
 }
 
