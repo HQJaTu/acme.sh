@@ -1299,6 +1299,42 @@ acme.sh --issue --dns dns_mydevil -d example.com -d *.example.com
 
 After certificate is ready, you can install it with [deploy command](../deploy/README.md#14-deploy-your-cert-on-mydevilnet).
 
+## 67. Use Core-Networks API to automatically issue cert
+
+First you need to login to your Core-Networks account to to set up an API-User.
+Then export username and password to use these credentials.
+
+```
+export CN_User="user"
+export CN_Password="passowrd"
+```
+
+Ok, let's issue a cert now:
+```
+acme.sh --issue --dns dns_cn -d example.com -d www.example.com
+```
+
+The `CN_User` and `CN_Password` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
+
+
+
+
+## 69. Use Zone.ee DNS API
+
+First, you'll need to retrive your API key. Estonian insructions https://help.zone.eu/kb/zoneid-api-v2/
+
+```
+export ZONE_Username=yourusername
+export ZONE_Key=keygoeshere
+```
+
+To issue a cert run:
+
+```
+acme.sh --issue -d example.com -d www.example.com --dns dns_zone
+```
+
+`ZONE_Username` and `ZONE_Key` will be saved in `~/.acme.sh/account.conf` and will be reused when needed.
 # Use custom API
 
 If your API is not supported yet, you can write your own DNS API.
