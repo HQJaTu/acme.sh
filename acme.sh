@@ -2093,7 +2093,7 @@ _startserver() {
 echo 'HTTP/1.0 200 OK'; \
 echo 'Content-Length\: $_content_len'; \
 echo ''; \
-printf '$content';" &
+printf -- '$content';" &
   serverproc="$!"
 }
 
