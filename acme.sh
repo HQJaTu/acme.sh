@@ -4435,7 +4435,6 @@ uninstallcronjob() {
   if ! _exists "$_CRONTAB"; then
       _info "It seems you are on Windows,  let's uninstall Windows scheduler task."
       _info "Uninstall Windows scheduler task success."
-    fi
     return
   fi
   _info "Removing cron job"
