@@ -1066,11 +1066,12 @@ _createcsr() {
   printf "[ req_distinguished_name ]\n[ req ]\ndistinguished_name = req_distinguished_name\nreq_extensions = v3_req\n[ v3_req ]\n\nkeyUsage = nonRepudiation, digitalSignature, keyEncipherment" >"$csrconf"
 
   if [ "$acmeValidationv1" ]; then
+    domainlist="$(_idn "$domainlist")"
     printf -- "\nsubjectAltName=DNS:$domainlist" >>"$csrconf"
   elif [ -z "$domainlist" ] || [ "$domainlist" = "$NO_VALUE" ]; then
     #single domain
     _info "Single domain" "$domain"
-    printf -- "\nsubjectAltName=DNS:$domain" >>"$csrconf"
+    printf -- "\nsubjectAltName=DNS:$(_idn $domain)" >>"$csrconf"
   else
     domainlist="$(_idn "$domainlist")"
     _debug2 domainlist "$domainlist"
@@ -3209,7 +3210,9 @@ _check_dns_entries() {
     for entry in $dns_entries; do
       d=$(_getfield "$entry" 1)
       txtdomain=$(_getfield "$entry" 2)
+      txtdomain=$(_idn $txtdomain)
       aliasDomain=$(_getfield "$entry" 3)
+      aliasDomain=$(_idn $aliasDomain)
       txt=$(_getfield "$entry" 5)
       d_api=$(_getfield "$entry" 6)
       _debug "d" "$d"
@@ -3406,7 +3409,7 @@ issue() {
   if [ -z "$vlist" ]; then
     if [ "$ACME_VERSION" = "2" ]; then
       #make new order request
-      _identifiers="{\"type\":\"dns\",\"value\":\"$_main_domain\"}"
+      _identifiers="{\"type\":\"dns\",\"value\":\"$(_idn $_main_domain)\"}"
       _w_index=1
       while true; do
         d="$(echo "$_alt_domains," | cut -d , -f "$_w_index")"
@@ -3503,7 +3506,7 @@ $_authorizations_map"
       fi
 
       if [ "$ACME_VERSION" = "2" ]; then
-        response="$(echo "$_authorizations_map" | grep "^$d," | sed "s/$d,//")"
+        response="$(echo "$_authorizations_map" | grep "^$(_idn $d)," | sed "s/$d,//")"
         _debug2 "response" "$response"
         if [ -z "$response" ]; then
           _err "get to authz error."
