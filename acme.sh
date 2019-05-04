@@ -4196,7 +4196,7 @@ renew() {
   _info "$(__green "Renew: '$Le_Domain'")"
   if [ ! -f "$DOMAIN_CONF" ]; then
     _info "'$Le_Domain' is not a issued domain, skip."
-    return 0
+    return $RENEW_SKIP
   fi
 
   if [ "$Le_RenewalDays" ]; then
@@ -4250,7 +4250,7 @@ renew() {
 
   if [ "$IN_CRON" = "1" ] && [ -z "$Le_CertCreateTime" ]; then
     _info "Skip invalid cert for: $Le_Domain"
-    return 0
+    return $RENEW_SKIP
   fi
 
   IS_RENEW="1"
