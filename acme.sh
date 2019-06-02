@@ -2064,7 +2064,7 @@ _readdomainconf() {
 _savedeployconf() {
   _savedomainconf "SAVED_$1" "$2" "$3"
   #remove later
-  _clearaccountconf "$1"
+  _cleardomainconf "$1"
 }
 
 #key
