@@ -185,36 +185,8 @@ More examples: https://github.com/Neilpang/acme.sh/wiki/How-to-issue-a-cert
 
 # 3. Install the cert to Apache/Nginx etc.
 
-After the cert is generated, you probably want to install/copy the cert to your Apache/Nginx or other servers.
-You **MUST** use this command to copy the certs to the target files, **DO NOT** use the certs files in **~/.acme.sh/** folder, they are for internal use only, the folder structure may change in the future.
-
-**Apache** example:
-```bash
-acme.sh --install-cert -d example.com \
---cert-file      /path/to/certfile/in/apache/cert.pem  \
---key-file       /path/to/keyfile/in/apache/key.pem  \
---fullchain-file /path/to/fullchain/certfile/apache/fullchain.pem \
---reloadcmd     "service apache2 force-reload"
-```
-
-**Nginx** example:
-```bash
-acme.sh --install-cert -d example.com \
---key-file       /path/to/keyfile/in/nginx/key.pem  \
---fullchain-file /path/to/fullchain/nginx/cert.pem \
---reloadcmd     "service nginx force-reload"
-```
-
-Only the domain is required, all the other parameters are optional.
-
-The ownership and permission info of existing files are preserved. You can pre-create the files to define the ownership and permission.
-
-Install/copy the cert/key to the production Apache or Nginx path.
-
-The cert will be renewed every **60** days by default (which is configurable). Once the cert is renewed, the Apache/Nginx service will be reloaded automatically by the command: `service apache2 force-reload` or `service nginx force-reload`.
-
-
-**Please take care:  The reloadcmd is very important. The cert can be automatically renewed, but, without a correct 'reloadcmd' the cert may not be flushed to your server(like nginx or apache), then your website will not be able to show renewed cert in 60 days.**
+Do any certificate installations how you like installing them.
+This fork will NOT touch your configs.
 
 # 4. Use Standalone server to issue cert
 
